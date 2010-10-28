@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+# don't paginate output on dumb terminals
+ENV['PAGER']="cat" if ENV['TERM'] == "dumb"
+
+require File.expand_path('../../config/boot',  __FILE__)
+require 'commands/dbconsole'
