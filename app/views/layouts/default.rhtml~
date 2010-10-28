@@ -1,0 +1,86 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <title><%= @page_title ? "- #{@page_title}" : "" -%></title>
+  <%= javascript_include_tag :defaults %>
+  <%= active_scaffold_includes %>
+  <link rel="shortcut icon" href="/images/favicon.ico" />
+
+
+</head>
+<body>
+
+<div id="container">
+ <div id="header">
+
+  <table
+    <tr>
+      <td align="left" valign="top">
+	<%= render_meteor_widget(::Meteor::Widget::DhtmlMenu::Spec.new(
+	    :name => "Tables", 
+	:menu_items => [ 
+        ["Training Course Result","/training_course_result"], 
+        ["Training","/training"], 
+        ["Training Session","/training_session"], 
+        ["Dokeos User","/dokeos_user"], 
+
+      ])) %> 
+      </td>
+
+      <td align="left" valign="top">
+	<%= render_meteor_widget(::Meteor::Widget::DhtmlMenu::Spec.new(
+	    :name => "DataTables", 
+	:menu_items => [ 
+        ["All Results","/chart/charter?klass=AllResultsV"],
+      ])) -%> 
+      </td>
+
+      <td align="left" valign="top">
+	<%= render_meteor_widget(::Meteor::Widget::DhtmlMenu::Spec.new(
+	    :name => "Views", 
+	:menu_items => [ 
+        ["All Results","/all_results_v"], 
+      ])) %> 
+      </td>
+    </tr>
+	    <tr>
+  <center>
+    <%= image_tag("logo.png", :alt => "Edit") %>
+  </center>
+</tr>
+  </table>
+
+  <hr/>
+
+ </div id="header">
+
+
+  <div id="main">
+  <%= yield :layout %>
+  </div>
+
+  <br/>
+  <hr/>
+  <table width=100% cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      
+     <td nowrap width=50% valign=top align=left rowspan=2>
+
+  <center>
+    <%= link_to "www.ckuru.com", "http://www.ckuru.com" -%>
+    <br/>
+    <font size="-2">
+      Rendered <%= Time.new.to_s %>
+    </font>
+    <br/>
+  </center>
+</td>
+  </tr>
+</table>
+
+</div>
+</body>
+</html>
+

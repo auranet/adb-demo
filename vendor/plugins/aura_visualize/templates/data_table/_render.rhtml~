@@ -1,0 +1,53 @@
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>
+      Google Visualization API Sample
+    </title>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load('visualization', '1', {packages: ['table']});
+    </script>
+    <script type="text/javascript">
+      var visualization;
+
+      var dataTable = new google.visualization.DataTable();
+<% (cols = AllTestResultsV.columns).each do |col| %>
+      dataTable.addColumn('string', '<%= col.name %>');
+<% end %>
+
+<% all = AllTestResultsV.all %>
+dataTable.addRows(<%= all.length %>);
+<% 
+row=0
+
+all.each do |r| 
+  colnum = 0
+  cols.each do |col|
+-%>
+    dataTable.setCell(<%= row %>, <%= colnum %>, '<%= r.send(col.name.to_sym) %>');
+<%
+    colnum += 1
+  end
+row += 1
+end 
+%>
+
+      function drawVisualization() {
+        var options = {'showRowNumber': true};
+ options['page'] = 'enable';
+  options['pageSize'] = 15;
+        var table1 = new google.visualization.Table(document.getElementById('table'));
+        table1.draw(dataTable, options);
+      
+      }
+      
+
+      google.setOnLoadCallback(drawVisualization);
+    </script>
+  </head>
+
+  <body style="font-family: Arial;border: 0 none;">
+    <div id="table"></div>
+    <br />
+  </body>
+</html>

@@ -54,7 +54,7 @@
 </table>
 
 
-<% results = Mlr.all() -%>
+<% results = Mlr.all(:order => "year desc, month desc", :conditions => "week is null") -%>
 
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script type="text/javascript">
