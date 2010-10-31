@@ -1,0 +1,51 @@
+<table id="<%= spec.dom_id %>" 
+       width="100%" 
+       class="meteor_borderbox"> 
+  <tr>
+    <td>
+      <table width="100%" 
+	     class="meteor_borderbox"> 
+  <tr id="<%= spec.dom_id %>_titlebar"> 
+    <td class="meteor_panebox"> 
+      <table> 
+	<tr> 
+	  <td class="meteor_enclosure_box" 
+	      width="100%"> 
+    	    <table width="100%" 
+		   style="margin:0; padding:0;"> 
+	      <tr> 
+		<td align="left" 
+		    valign="center"> 
+		  <div id="<%= spec.dom_id %>_hide">
+		    <img src="/images/meteor/collapse.jpg" 
+			 onclick="Element.hide('visualizationx');Element.show('<%= spec.dom_id %>_show');Element.hide('<%= spec.dom_id %>_hide');" 
+			 style="margin:0;padding:0;">
+		  </div> 
+		  <div id="<%= spec.dom_id %>_show" 
+		       style="display:none;">
+		    <img style="margin:0;padding:0;" 
+			 src="/images/meteor/expand.jpg"  
+			 onclick="Element.show('visualizationx');Element.hide('<%= spec.dom_id %>_show');Element.show('<%= spec.dom_id %>_hide');">
+		  </div> 
+		</td> 
+		<td align="left"> 
+		  <%= spec.title %>
+		</td>
+	      </tr> 
+	    </table> 
+	  </td> 
+	</tr> 
+      </table> 
+    </td> 
+  </tr> 
+  <tr>
+    <td>
+      <table id="<%= spec.dom_id %>_contents" width="100%">
+	<%= block.call if block %>
+      </table>
+    </td>
+  </tr>
+      </table>
+    </td>
+  </tr>
+</table>
