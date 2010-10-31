@@ -54,7 +54,7 @@
 </table>
 
 
-<% results = Mlr.all(:order => "year desc, month desc", :conditions => "week is null") -%>
+<% results = Mlr.all(:order => "year asc, month asc", :conditions => "week = 0 and year != 0") -%>
 
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script type="text/javascript">
@@ -64,16 +64,16 @@
       function drawVisualization() {
         // Create and populate the data table.
         var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Test');
-        data.addColumn('number', 'Score');
+        data.addColumn('string', 'Month');
+        data.addColumn('number', 'Active Accounts');
 
         data.addRows(<%= results.length %>);
 <% 
 rownum=0
 results.each do |r|
 %>
-        data.setCell(<%= rownum %>, 0, '<%= "#{r.training_session_name}/#{r.training_course_name}" %>');
-        data.setCell(<%= rownum %>, 1, <%= r.score.to_f %>);
+        data.setCell(<%= rownum %>, 0, '<%= "#{r.month}-#{r.year}" %>');
+        data.setCell(<%= rownum %>, 1, <%= r.active_accounts ? r.active_accounts.to_i : 0%>);
 <%
 rownum += 1
  end -%>
@@ -86,7 +86,7 @@ rownum += 1
       
         // Add a data range.
         var min = 0;
-        var max = 100;
+        var max = <%= results.collect{|x| x.active_accounts}.max %>;
         options.chds = min + ',' + max;
       
         // Now add data point labels at the end of each bar.

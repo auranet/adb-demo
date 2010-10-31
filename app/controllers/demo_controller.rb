@@ -6,4 +6,7 @@ class DemoController < ApplicationController
 
   def bar
   end
+
+  def bar2
+  end
 end
