@@ -41,8 +41,16 @@ module Meteor
           raise "you must override this function"
         end
 
-        def type_format(type,data)
+        def format_data(column,row)
+          type = column[:type]
           extras=(type == :string ? "'" : '') 
+          
+          data = row.send(row.respond_to?("#{column[:field]}_format") ? "#{column[:field]}_format" : column[:field])
+          
+          if type == :number
+            data = data.to_i
+          end
+
           "#{extras}#{data}#{extras}"
         end
 

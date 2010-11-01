@@ -40,9 +40,22 @@ class Mlr < ActiveRecord::Base
     timestamps
   end
 
+  Month = ['Jan',
+           'Feb',
+           'Mar',
+           'Apr',
+           'May',
+           'Jun',
+           'Jul',
+           'Aug',
+           'Sep',
+           'Oct',
+           'Nov',
+           'Dec',]
+
 
   def month_format
-    "#{month.to_i}-#{year.to_i}"
+    "#{Month[month.to_i]}-#{year.to_i}"
   end
 
   def self.sorted_columns

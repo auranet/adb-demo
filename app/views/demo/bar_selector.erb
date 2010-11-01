@@ -3,6 +3,8 @@
 <%= select_tag(:fields,options_from_collection_for_select(Mlr.sorted_columns, "name", "name"), {:multiple => true}) %>
 <%= submit_tag %>
 
+<% if params["fields"] %>
+
 <%= Meteor::Widget::Borderbox::Spec.new(:dom_id => "active_accounts",
                                         :title => "Bar Demo",
                                         :hideable => [:bar_demo]).render {
@@ -11,7 +13,7 @@
 
 <% 
 
-  all = Mlr.all(:order => "year asc, month asc", :conditions => "week = 0 and year != 0") -%>
+  all = Mlr.all(:order => "year asc, month asc", :conditions => "week = 0 and year != 0")
   cols = []
   cols.push({:type => :string, :field => :month})
   params["fields"].each do |field|
@@ -26,8 +28,8 @@
     data.collect{|x| x.active_accounts}.max
   end
 %> 
-<% debugger %>
 <%= bar.render %>
 
 <%= javascript_tag "new Draggable('active_accounts')" %>
 
+<% end %>

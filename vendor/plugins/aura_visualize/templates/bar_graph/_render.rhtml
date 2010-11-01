@@ -14,16 +14,18 @@
 
   data.addRows(<%= spec.data.length %>);
 <% 
+max = 0
 rownum=0
 spec.data.each do |r|
    column_number=0
    spec.columns.each do |column| %>
-    data.setCell(<%= rownum %>, <%= column_number %>, <%= spec.type_format(column[:type],
-                                                                           r.send(r.respond_to?("#{column[:field]}_format") ? "#{column[:field]}_format" : column[:field])) -%>); <%
+    data.setCell(<%= rownum %>, <%= column_number %>, <%= spec.format_data(column,r) -%>); <%
     column_number += 1
+    max = r.send(column[:field]) if (r.send(column[:field]) > max rescue nil)
   end
   rownum += 1
-end -%>
+end 
+-%>
 
 var options = {};
 
@@ -33,7 +35,7 @@ options.cht = 'bhg';
 
 // Add a data range.
 var min = 0;
-var max = <%= spec.max(spec.data) %>;
+var max = <%= max %>;
 options.chds = min + ',' + max;
 
 // Now add data point labels at the end of each bar.
