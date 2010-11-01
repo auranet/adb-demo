@@ -11,7 +11,5 @@ class DemoController < ApplicationController
   end
 
   def bar_selector
-    debugger
-    1
   end
 end
