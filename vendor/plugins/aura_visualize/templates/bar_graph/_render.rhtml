@@ -1,0 +1,76 @@
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript">
+  google.load('visualization', '1', {packages: ['imagechart']});
+</script>
+
+<script type="text/javascript">
+  function drawVisualization() {
+  // Create and populate the data table.
+  var data = new google.visualization.DataTable();
+
+  <% spec.columns.each do |column| -%>
+  data.addColumn('<%= column[:type].to_s -%>','<%= column[:field].to_s.humanize -%>')
+<% end -%>
+
+  data.addRows(<%= spec.data.length %>);
+<% 
+rownum=0
+spec.data.each do |r|
+   column_number=0
+   spec.columns.each do |column| %>
+    data.setCell(<%= rownum %>, <%= column_number %>, <%= spec.type_format(column[:type],
+                                                                           r.send(r.respond_to?("#{column[:field]}_format") ? "#{column[:field]}_format" : column[:field])) -%>); <%
+    column_number += 1
+  end
+  rownum += 1
+end -%>
+
+var options = {};
+
+// 'bhg' is a horizontal grouped bar chart in the Google Chart API.
+// The grouping is irrelevant here since there is only one numeric column.
+options.cht = 'bhg';
+
+// Add a data range.
+var min = 0;
+var max = <%= spec.max(spec.data) %>;
+options.chds = min + ',' + max;
+
+// Now add data point labels at the end of each bar.
+
+
+// Draw labels in pink.
+var color = 'ff3399';
+
+// Google Chart API needs to know which column to draw the labels on.
+// Here we have one labels column and one data column.
+// The Chart API doesn't see the label column.  From its point of view,
+// the data column is column 0.
+var index = 0;
+
+// -1 tells Google Chart API to draw a label on all bars.
+var allbars = -1;
+
+// 10 pixels font size for the labels.
+var fontSize = 10;
+
+// Priority is not so important here, but Google Chart API requires it.
+var priority = 0;
+
+options.chm = [ color, index, allbars, fontSize, priority].join(',');
+
+// Create and draw the visualization.
+new google.visualization.ImageChart(document.getElementById('<%= spec.page_div %>')).
+draw(data, options);  
+}
+
+
+google.setOnLoadCallback(drawVisualization);
+</script>
+
+
+
+
+
+
+
