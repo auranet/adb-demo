@@ -1,75 +1,29 @@
-<%= ::Meteor::Widget::Borderbox::Spec.new(:dom_id => "test_summary",
-                                          :title => "Bar Demo").render {
- '<div id="visualizationx" style="width: 1000px; height: 300px;" style="border-width: 1;"></div>'
+
+<% all = Mlr.all(:order => "year asc, month asc", :conditions => "week = 0 and year != 0") -%>
+
+
+<%= Meteor::Widget::Borderbox::Spec.new(:dom_id => "active_accounts",
+                                        :title => "Bar Demo",
+                                        :hideable => [:bar_demo]).render {
+ '<div id="bar_demo" style="width: 800px; height: 1000px;" style="border-width: 1;"></div>'
 } %>
 
 
-<% results = Mlr.all(:order => "year asc, month asc", :conditions => "week = 0 and year != 0") -%>
+  <% bar = Meteor::Widget::BarGraph::Spec.new(:columns => [{:type => :string, :field => :month},
+                                                           {:type => :number, :field => :active_accounts},
+                                                           {:type => :number, :field => :num_activated},
+                                                           {:type => :number, :field => :num_deactivated},
+                                                          ],
+                                            :data => all,
+                                            :page_div => "bar_demo")
 
-    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
-    <script type="text/javascript">
-      google.load('visualization', '1', {packages: ['imagechart']});
-    </script>
-    <script type="text/javascript">
-      function drawVisualization() {
-        // Create and populate the data table.
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Month');
-        data.addColumn('number', 'Active Accounts');
+  def bar.max(data)
+    data.collect{|x| x.active_accounts}.max
+  end
+%> 
+<%= bar.render %>
 
-        data.addRows(<%= results.length %>);
-<% 
-rownum=0
-results.each do |r|
-%>
-        data.setCell(<%= rownum %>, 0, '<%= "#{r.month}-#{r.year}" %>');
-        data.setCell(<%= rownum %>, 1, <%= r.active_accounts ? r.active_accounts.to_i : 0%>);
-<%
-rownum += 1
- end -%>
-      
-        var options = {};
-      
-        // 'bhg' is a horizontal grouped bar chart in the Google Chart API.
-        // The grouping is irrelevant here since there is only one numeric column.
-        options.cht = 'bhg';
-      
-        // Add a data range.
-        var min = 0;
-        var max = <%= results.collect{|x| x.active_accounts}.max %>;
-        options.chds = min + ',' + max;
-      
-        // Now add data point labels at the end of each bar.
-      
-      
-        // Draw labels in pink.
-        var color = 'ff3399';
-      
-        // Google Chart API needs to know which column to draw the labels on.
-        // Here we have one labels column and one data column.
-        // The Chart API doesn't see the label column.  From its point of view,
-        // the data column is column 0.
-        var index = 0;
-      
-        // -1 tells Google Chart API to draw a label on all bars.
-        var allbars = -1;
-      
-        // 10 pixels font size for the labels.
-        var fontSize = 10;
-       
-        // Priority is not so important here, but Google Chart API requires it.
-        var priority = 0;
-      
-        options.chm = [ color, index, allbars, fontSize, priority].join(',');
-      
-        // Create and draw the visualization.
-        new google.visualization.ImageChart(document.getElementById('visualizationx')).
-          draw(data, options);  
-      }
-      
-
-      google.setOnLoadCallback(drawVisualization);
-    </script>
+<%= javascript_tag "new Draggable('active_accounts')" %>
 
 
-<%= javascript_tag "new Draggable('test_summary')" %>
+

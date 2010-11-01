@@ -1,0 +1,4 @@
+
+<%= form_tag %>
+<%= select_tag(:fields,options_from_collection_for_select(Mlr.sorted_columns, "name", "name"), {:multiple => true}) %>
+<%= submit_tag %>

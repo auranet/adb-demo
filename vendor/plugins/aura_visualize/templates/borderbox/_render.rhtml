@@ -18,14 +18,14 @@
 		    valign="center"> 
 		  <div id="<%= spec.dom_id %>_hide">
 		    <img src="/images/meteor/collapse.jpg" 
-			 onclick="Element.hide('visualizationx');Element.show('<%= spec.dom_id %>_show');Element.hide('<%= spec.dom_id %>_hide');" 
+			 onclick="<%= spec.hide_text %>Element.hide('<%= spec.dom_id %>_contents');Element.show('<%= spec.dom_id %>_show');Element.hide('<%= spec.dom_id %>_hide');" 
 			 style="margin:0;padding:0;">
 		  </div> 
 		  <div id="<%= spec.dom_id %>_show" 
 		       style="display:none;">
 		    <img style="margin:0;padding:0;" 
 			 src="/images/meteor/expand.jpg"  
-			 onclick="Element.show('visualizationx');Element.hide('<%= spec.dom_id %>_show');Element.show('<%= spec.dom_id %>_hide');">
+			 onclick="<%= spec.show_text %>Element.show('<%= spec.dom_id %>_contents');Element.hide('<%= spec.dom_id %>_show');Element.show('<%= spec.dom_id %>_hide');">
 		  </div> 
 		</td> 
 		<td align="left"> 

@@ -17,12 +17,30 @@ module Meteor
         
         attr_accessor :dom_id
         attr_accessor :title
+        attr_accessor :hideable # a list of divs that will get the hide event (or show)
 
         def initialize(options={},&block)
           super(options,&block)
           [:title,:dom_id].each do |field|
             raise "set :#{field} in #{self.class}.#{current_method}; this is required" unless self.send(field)
           end
+        end
+
+        def _hide_text(action)
+          ret = ''
+          if hideable 
+            hideable.each do |hide|
+              ret += "Element.#{action}('#{hide}');"
+            end
+          end
+          ret
+        end
+
+        def hide_text
+          _hide_text('hide')
+        end
+        def show_text
+          _hide_text('show')
         end
       end
     end

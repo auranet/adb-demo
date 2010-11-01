@@ -41,22 +41,13 @@ class Mlr < ActiveRecord::Base
   end
 
 
-  # --- Permissions --- #
-
-  def create_permitted?
-    acting_user.administrator?
+  def month_format
+    "#{month.to_i}-#{year.to_i}"
   end
 
-  def update_permitted?
-    acting_user.administrator?
-  end
-
-  def destroy_permitted?
-    acting_user.administrator?
-  end
-
-  def view_permitted?(field)
-    true
+  def self.sorted_columns
+    self.columns.sort {|a,b| a.name <=> b.name}
   end
 
 end
+

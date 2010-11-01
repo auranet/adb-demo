@@ -9,4 +9,9 @@ class DemoController < ApplicationController
 
   def bar2
   end
+
+  def bar_selector
+    debugger
+    1
+  end
 end

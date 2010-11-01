@@ -1,6 +1,6 @@
 module Meteor
   module Widget
-    module DataTable
+    module AuraVisualize
       module MeteorWidgetPlugin
         def plugin_name
           # XXX - I assume this will break down under heavy load; then name of the plugin this widget is found in.
