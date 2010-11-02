@@ -40,7 +40,8 @@ class Mlr < ActiveRecord::Base
     timestamps
   end
 
-  Month = ['Jan',
+  Month = ['',
+           'Jan',
            'Feb',
            'Mar',
            'Apr',

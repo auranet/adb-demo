@@ -1,11 +1,19 @@
 
+A good one is avg_profit, avg_revenue, and active deals....
+
+<table>
+<tr>
+<td valign="top">
 <%= form_tag %>
-<%= select_tag(:fields,options_from_collection_for_select(Mlr.sorted_columns, "name", "name"), {:multiple => true}) %>
+<%= select_tag(:fields,options_from_collection_for_select(Mlr.sorted_columns, "name", "name"), {:multiple => true, 
+                                                                                                :size => [Mlr.columns.length,20].min}) %>
 <%= submit_tag %>
+</td>
+<td valign="top" style="padding-left: 60px;">
 
 <% if params["fields"] %>
 
-<%= Meteor::Widget::Borderbox::Spec.new(:dom_id => "active_accounts",
+<%= Meteor::Widget::Borderbox::Spec.new(:dom_id => "bar_demo_frame",
                                         :title => "Bar Demo",
                                         :hideable => [:bar_demo]).render {
  '<div id="bar_demo" style="width: 800px; height: 1000px;" style="border-width: 1;"></div>'
@@ -30,6 +38,16 @@
 %> 
 <%= bar.render %>
 
-<%= javascript_tag "new Draggable('active_accounts')" %>
+<script type="text/javascript">
+
+window.onload = function() {
+     new Draggable('bar_demo_frame', {
+       }
+     );
+}
+</script>
 
 <% end %>
+</td>
+</tr>
+</table>
