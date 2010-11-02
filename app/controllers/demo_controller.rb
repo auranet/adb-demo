@@ -30,8 +30,6 @@ class DemoController < ApplicationController
       respond_to do |format|
         format.html #bar_selector.erb
         format.json do
-          puts 'WTF' * 40
-          puts params.inspect
           @chart_id = "#{params["id"]}_#{params["fields"].join('_')}_chart"
           render :json => {
             :title => params["fields"].join(', '),
