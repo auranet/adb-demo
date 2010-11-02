@@ -19,33 +19,11 @@ A good one is avg_profit, avg_revenue, and active deals....
  '<div id="bar_demo" style="width: 800px; height: 1000px;" style="border-width: 1;"></div>'
 } %>
 
-<% 
+<%
 
-  all = Mlr.all(:order => "year asc, month asc", :conditions => "week = 0 and year != 0")
-  cols = []
-  cols.push({:type => :string, :field => :month})
-  params["fields"].each do |field|
-    cols.push({:type => :number, :field => field.to_sym})
-  end
+%>
 
-  bar = Meteor::Widget::BarGraph::Spec.new(:columns => cols,
-                                           :data => all,
-                                           :page_div => "bar_demo")
-
-  def bar.max(data)
-    data.collect{|x| x.active_accounts}.max
-  end
-%> 
-<%= bar.render %>
-
-<script type="text/javascript">
-
-window.onload = function() {
-     new Draggable('bar_demo_frame', {
-       }
-     );
-}
-</script>
+<%= @bar.render if @bar %>
 
 <% end %>
 </td>

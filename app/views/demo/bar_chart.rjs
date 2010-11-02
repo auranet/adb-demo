@@ -1,0 +1,67 @@
+# Fuck you, MVC.
+def format_data(data, column, row)
+  type = column[:type]
+  extras = (type == :string ? "'" : '')
+
+  data = row.send(row.respond_to?("#{column[:field]}_format") ? "#{column[:field]}_format" : column[:field])
+
+  if type == :number
+    data = data.to_i
+  end
+
+  "#{extras}#{data}#{extras}"
+end
+
+page << '(function () {'
+page << 'var data = new google.visualization.DataTable();'
+@cols.each do |column|
+  page << "data.addColumn('#{column[:type].to_s}','#{column[:field].to_s.humanize}');"
+end
+page << "data.addRows(#{@all.length});"
+max = 0
+@all.each_with_index do |r, rownum|
+  @cols.each_with_index do |column, column_number|
+    page << "data.setCell(#{rownum}, #{column_number}, #{format_data(@all, column, r)});"
+    max = r.send(column[:field]) if (r.send(column[:field]) > max rescue nil)
+  end
+end
+page << <<-END_JS
+  var options = {};
+
+  // 'bhg' is a horizontal grouped bar chart in the Google Chart API.
+  // The grouping is irrelevant here since there is only one numeric column.
+  options.cht = 'bhg';
+
+  // Add a data range.
+  var min = 0;
+  var max = #{max};
+  options.chds = min + ',' + max;
+
+  // Now add data point labels at the end of each bar.
+
+
+  // Draw labels in pink.
+  var color = 'ff3399';
+
+  // Google Chart API needs to know which column to draw the labels on.
+  // Here we have one labels column and one data column.
+  // The Chart API doesn't see the label column.  From its point of view,
+  // the data column is column 0.
+  var index = 0;
+
+  // -1 tells Google Chart API to draw a label on all bars.
+  var allbars = -1;
+
+  // 10 pixels font size for the labels.
+  var fontSize = 10;
+
+  // Priority is not so important here, but Google Chart API requires it.
+  var priority = 0;
+
+  options.chm = [ color, index, allbars, fontSize, priority].join(',');
+
+  // Create and draw the visualization.
+  new google.visualization.ImageChart(document.getElementById('#{@chart_id}'))
+    .draw(data, options);
+END_JS
+page << '})();'
