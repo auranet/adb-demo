@@ -1,0 +1,57 @@
+/**
+ * @file
+ *    CSS for the jQuery.dashboard() plugin.
+ *
+ * Released under the GNU General Public License.  See LICENSE.txt.
+ */
+
+.column {
+  float: left;
+  clear: none;
+  width: 33.3%;
+  margin: 0;
+  /* padding-bottom and min-height make sure that there is always a sizable drop zone. */
+  min-height: 400px;
+  padding: 0 0 250px;
+  list-style-type: none;
+}
+  /* The placeholder that indicates where a dragged widget will land if dropped now. */
+  .placeholder {
+    margin: 5px;
+    border: 3px dashed pink;
+  }
+  /* Spacing between widgets. */
+  li.widget, li.empty-placeholder { margin: 6px 3px; }
+  li.widget { border: 1px solid black; }
+    /* Spacing inside widgets. */
+    .widget-wrapper { padding: 5px; }
+      .widget-header {
+        /* Make sure the mouse cursor reflects the behaviour on hover. */
+        cursor: move;
+        font-weight: bold;
+      }
+      /* Standards-browsers do this anyway because all inner block elements are floated.  IE doesn't because it's crap. */
+      .widget-controls { display: inline; }
+        .widget-icon, .full-screen-close-icon img {
+          display: block;
+          float: right;
+          margin-left: 2px;
+          /* Although these are <a> links, they don't have href="" attributes. */
+          cursor: pointer;
+        }
+
+#full-screen-header {
+  display: block;
+  padding: .2em .4em;
+  border: 1px solid black;
+  background: #eee;
+  /* Although this is an <a> link, it doesn't have an href="" attribute. */
+  cursor: pointer;
+}
+
+/* Make the throbber in-yer-face. */
+.throbber {
+  padding: 50px;
+  text-align: center;
+  background: #eee;
+}
