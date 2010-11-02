@@ -30,7 +30,9 @@ class DemoController < ApplicationController
       respond_to do |format|
         format.html #bar_selector.erb
         format.json do
-          @chart_id = params["fields"].join('_') + '_chart'
+          puts 'WTF' * 40
+          puts params.inspect
+          @chart_id = "#{params["id"]}_#{params["fields"].join('_')}_chart"
           render :json => {
             :title => params["fields"].join(', '),
             :chart_id => @chart_id,
@@ -45,7 +47,9 @@ class DemoController < ApplicationController
 
   def widgets
     render :json => [
-      {'blah' => 0}
+      {'blah_1' => 0, 'blah_4' => 1},
+      {'blah_2' => 0},
+      {'blah_3' => 0}
     ]
   end
 end
